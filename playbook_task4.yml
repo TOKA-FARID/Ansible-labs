@@ -1,0 +1,8 @@
+- name: My Playbook
+  hosts: web_servers
+
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: "{{ hostvars[inventory_hostname]['package_name'] }}"
+        state: "{{ hostvars[inventory_hostname]['package_version'] }}"

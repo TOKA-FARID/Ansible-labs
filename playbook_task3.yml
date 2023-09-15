@@ -1,0 +1,20 @@
+- name: Update and Install Nginx
+  hosts: web_servers
+  gather_facts: false
+
+  tasks:
+    - name: Update cache
+      apt:
+        update_cache: yes
+      tags: update
+
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: latest
+      tags: install
+
+    - name: Always run this task
+      debug:
+        msg: This task will always run
+      tags: always
