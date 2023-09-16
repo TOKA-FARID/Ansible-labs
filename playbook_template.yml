@@ -1,0 +1,40 @@
+- name: Install package, copy files, and restart service
+  hosts: web_servers
+
+
+  vars:
+    package_name: nginx
+    template_name: index.html.j2
+    template_message: "Hello, world!"
+    files_list:
+      - file.css
+      - file.js
+
+  tasks:
+    - name: Install package
+      apt:
+        name: "{{ package_name }}"
+        state: present
+      notify: 
+        - Restart Service
+
+    - name: Copy index.html using template
+      template:
+        src: "{{ template_name }}"
+        dest: /var/www/html/index.html
+      notify:
+        - Restart service
+
+    - name: Copy files using loop
+      copy:
+        src: "{{ item }}"
+        dest: /var/www/html/
+      loop: "{{ files_list }}"
+      notify:
+        - Restart service
+
+  handlers:
+    - name: Restart service
+      sysvinit:
+        name: "{{ package_name }}"
+        state: restarted

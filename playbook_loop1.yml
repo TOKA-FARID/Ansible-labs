@@ -1,0 +1,16 @@
+- name: Install latest versions of packages
+  hosts: web_servers
+  gather_facts: false
+
+  vars:
+    packages:
+      - mariadb-server
+      - curl
+      - nginx
+
+  tasks:
+    - name: Install packages
+      package:
+        name: "{{ item }}"
+        state: latest
+      loop: "{{ packages }}"

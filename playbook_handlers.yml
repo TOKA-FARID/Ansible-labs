@@ -1,0 +1,31 @@
+- name: Manage web servers and services
+  hosts: web_servers
+
+  vars:
+    package_name: "nginx"
+    files_names:
+      - index.html
+      - file.css
+      - file.js
+
+  tasks:
+    - name: Install the package
+      package:
+        name: "{{ package_name }}"
+        state: present
+      register: install_result
+      notify: restart_service
+
+    - name: Copy files to the target host
+      copy:
+        src: "{{ item }}"
+        dest: /var/www/html/
+      loop: "{{ files_names }}"
+      notify:
+        - Restart service
+
+  handlers:
+    - name: restart_service
+      sysvinit:
+        name: "{{ package_name }}"
+        state: restarted

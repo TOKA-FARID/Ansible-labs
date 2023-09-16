@@ -1,0 +1,21 @@
+- name: Manage web servers and services
+  hosts: web_servers
+
+
+  tasks:
+    - name: Install nginx or httpd depending on distribution
+      package:
+        name: "{{ 'nginx' if ansible_distribution == 'Ubuntu' else 'httpd' }}"
+        state: present
+
+    - name: Restart nginx service on Ubuntu
+      sysvinit:
+        name: nginx
+        state: restarted
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Restart httpd service on CentOS
+      service:
+        name: httpd
+        state: restarted
+      when: ansible_distribution == 'CentOS'

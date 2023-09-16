@@ -1,0 +1,19 @@
+- name: Manage packages with different states
+  hosts: web_servers
+  gather_facts: false
+
+  vars:
+    packages:
+      - name: mariadb-server
+        state: present
+      - name: curl
+        state: latest
+      - name: httpd
+        state: absent
+
+  tasks:
+    - name: Manage packages
+      package:
+        name: "{{ item.name }}"
+        state: "{{ item.state }}"
+      loop: "{{ packages }}"

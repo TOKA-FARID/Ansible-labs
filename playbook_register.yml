@@ -1,0 +1,19 @@
+- name: Manage web servers and services
+  hosts: web_servers
+
+  tasks:
+    - name: Install nginx or httpd
+      package:
+        name: "{{ 'nginx' if ansible_distribution == 'Ubuntu' else 'httpd' }}"
+        state: present
+      register: install_result
+
+    - name: View the value of the register variable
+      debug:
+        msg: "{{ install_result }}"
+
+    - name: Restart nginx service on Ubuntu
+      sysvinit:
+        name: nginx
+        state: restarted
+      when: install_result.changed or not install_result.failed
