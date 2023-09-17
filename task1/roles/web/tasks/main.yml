@@ -1,0 +1,20 @@
+# tasks file for web
+- name: Install package
+  apt:
+    name: "{{ package_name }}"
+    state: present
+  register: install_result
+
+- name: Copy files from controller to host
+  copy:
+    src: "{{ item }}"
+    dest: /var/www/html/
+  loop: "{{ files_names }}"
+  when: install_result.changed
+  register: copy_result
+
+- name: Restart service
+  sysvinit:
+    name: "{{ package_name }}"
+    state: restarted
+  when: copy_result.changed

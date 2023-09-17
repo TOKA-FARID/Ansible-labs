@@ -1,0 +1,7 @@
+---
+# defaults file for web
+# - name: the main playbook..
+- hosts: web_servers
+  become: true
+  roles:
+    - web
