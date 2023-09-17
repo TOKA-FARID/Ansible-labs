@@ -1,0 +1,9 @@
+---
+# handlers file for web
+- name: Restart Service
+  become: yes
+  become_method: sudo
+  sysvinit:
+    name: "{{ package_name }}"
+    state: restarted
+

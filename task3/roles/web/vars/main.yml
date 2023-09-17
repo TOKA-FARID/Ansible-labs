@@ -1,0 +1,8 @@
+---
+# vars file for web
+package_name: nginx
+template_name: index.html.j2
+template_message: "Hello, World!"
+files_names:
+  - styles.css
+  - script.js
