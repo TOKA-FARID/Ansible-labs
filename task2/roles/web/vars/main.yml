@@ -1,0 +1,7 @@
+---
+# vars file for web
+package_name: postgresql
+files_names:
+  - index.html
+  - styles.css
+  - script.js

@@ -1,0 +1,7 @@
+---
+# handlers file for web
+- name: Restart Service
+  sysvinit:
+    name: "{{ package_name }}"
+    state: restarted
+

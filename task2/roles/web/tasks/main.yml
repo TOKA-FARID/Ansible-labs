@@ -1,0 +1,13 @@
+---
+- name: Install package
+  apt:
+    name: "{{ package_name }}"
+    state: present
+  notify: Restart Service
+
+- name: Copy files
+  copy:
+    src: "./files/{{ item }}"
+    dest: /var/www/html/
+  loop: "{{ files_names }}"
+  notify: Restart Service
